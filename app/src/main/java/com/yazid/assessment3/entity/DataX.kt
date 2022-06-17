@@ -5,31 +5,31 @@ import com.squareup.moshi.Json
 
 data class DataX(
     @Json(name = "categories")
-    val categories: List<Category>,
+    val categories: List<Category> = listOf(),
     @Json(name = "chat")
-    val chat: String,
+    val chat: String = "",
     @Json(name = "created_at")
-    val createdAt: String,
+    val createdAt: String = "",
     @Json(name = "deleted_at")
-    val deletedAt: Any,
+    val deletedAt: Any? = Any(),
     @Json(name = "description")
-    val description: String,
+    val description: String = "",
     @Json(name = "id")
-    val id: Int,
+    val id: Int = 0,
     @Json(name = "images")
-    val images: List<Image>,
+    val images: List<Image> = listOf(),
     @Json(name = "is_empty")
-    val isEmpty: String,
+    val isEmpty: String = "",
     @Json(name = "name")
-    val name: String,
+    val name: String = "",
     @Json(name = "price")
-    val price: String,
+    val price: String = "",
     @Json(name = "rating")
-    val rating: String,
+    val rating: String = "",
     @Json(name = "stock")
-    val stock: String,
+    val stock: String = "",
     @Json(name = "toppings")
-    val toppings: List<Any>,
+    val toppings: List<Any> = listOf(),
     @Json(name = "updated_at")
-    val updatedAt: String
+    val updatedAt: String = ""
 )

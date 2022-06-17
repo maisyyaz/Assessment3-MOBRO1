@@ -5,9 +5,9 @@ import com.squareup.moshi.Json
 
 data class Link(
     @Json(name = "active")
-    val active: Boolean,
+    val active: Boolean = false,
     @Json(name = "label")
-    val label: String,
+    val label: String = "",
     @Json(name = "url")
-    val url: Any
+    val url: Any? = Any()
 )

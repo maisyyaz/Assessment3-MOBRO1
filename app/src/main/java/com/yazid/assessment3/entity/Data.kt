@@ -5,29 +5,29 @@ import com.squareup.moshi.Json
 
 data class Data(
     @Json(name = "current_page")
-    val currentPage: Int,
+    val currentPage: Int = 0,
     @Json(name = "data")
-    val `data`: List<DataX>,
+    val `data`: List<DataX> = listOf(),
     @Json(name = "first_page_url")
-    val firstPageUrl: String,
+    val firstPageUrl: String = "",
     @Json(name = "from")
-    val from: Int,
+    val from: Int = 0,
     @Json(name = "last_page")
-    val lastPage: Int,
+    val lastPage: Int = 0,
     @Json(name = "last_page_url")
-    val lastPageUrl: String,
+    val lastPageUrl: String = "",
     @Json(name = "links")
-    val links: List<Link>,
+    val links: List<Link> = listOf(),
     @Json(name = "next_page_url")
-    val nextPageUrl: Any,
+    val nextPageUrl: Any? = Any(),
     @Json(name = "path")
-    val path: String,
+    val path: String = "",
     @Json(name = "per_page")
-    val perPage: Int,
+    val perPage: Int = 0,
     @Json(name = "prev_page_url")
-    val prevPageUrl: Any,
+    val prevPageUrl: Any? = Any(),
     @Json(name = "to")
-    val to: Int,
+    val to: Int = 0,
     @Json(name = "total")
-    val total: Int
+    val total: Int = 0
 )

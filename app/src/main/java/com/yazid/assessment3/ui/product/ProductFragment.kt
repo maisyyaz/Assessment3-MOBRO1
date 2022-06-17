@@ -1,6 +1,7 @@
 package com.yazid.assessment3.ui.product
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,55 +9,56 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.yazid.assessment3.R
+import com.yazid.assessment3.databinding.FragmentProductListBinding
+import com.yazid.assessment3.databinding.FragmentRegisterBinding
+import com.yazid.assessment3.network.ProductApi
 import com.yazid.assessment3.placeholder.PlaceholderContent
 
-/**
- * A fragment representing a list of Items.
- */
 class ProductFragment : Fragment() {
 
-    private var columnCount = 2
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
+    private lateinit var myAdapter: MyProductRecyclerViewAdapter
+    private val viewModel: ProductViewModel by lazy {
+        ViewModelProvider(this).get(ProductViewModel::class.java)
     }
+
+    private var _binding: FragmentProductListBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_product_list, container, false)
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyProductRecyclerViewAdapter(PlaceholderContent.ITEMS)
-            }
+        _binding = FragmentProductListBinding.inflate(inflater, container, false)
+        myAdapter = MyProductRecyclerViewAdapter()
+        with(binding.list) {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = myAdapter
         }
-        return view
+        return binding.root
     }
 
-    companion object {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
+        viewModel.getData().observe(viewLifecycleOwner) {
+            myAdapter.updateData(it.data.data)
+        }
 
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            ProductFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
+        viewModel.getStatus().observe(viewLifecycleOwner) {
+            updateProgress(it)
+        }
+    }
+
+    private fun updateProgress(status: ProductApi.ApiStatus?) {
+        when (status) {
+            ProductApi.ApiStatus.LOADING -> binding.progressBar.visibility = View.VISIBLE
+            ProductApi.ApiStatus.SUCCESS -> binding.progressBar.visibility = View.GONE
+            ProductApi.ApiStatus.FAILED -> {
+                binding.progressBar.visibility = View.GONE
+                binding.networkError.visibility = View.VISIBLE
             }
+        }
     }
 }

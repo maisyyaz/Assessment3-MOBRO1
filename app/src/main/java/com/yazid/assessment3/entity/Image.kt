@@ -5,15 +5,15 @@ import com.squareup.moshi.Json
 
 data class Image(
     @Json(name = "created_at")
-    val createdAt: String,
+    val createdAt: String = "",
     @Json(name = "id")
-    val id: Int,
+    val id: Int = 0,
     @Json(name = "name")
-    val name: String,
+    val name: String = "",
     @Json(name = "path")
-    val path: String,
+    val path: String = "",
     @Json(name = "size")
-    val size: String,
+    val size: String = "",
     @Json(name = "updated_at")
-    val updatedAt: String
+    val updatedAt: String = ""
 )

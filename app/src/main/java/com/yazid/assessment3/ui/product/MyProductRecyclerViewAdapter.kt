@@ -3,18 +3,22 @@ package com.yazid.assessment3.ui.product
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.yazid.assessment3.R
 
-import com.yazid.assessment3.placeholder.PlaceholderContent.PlaceholderItem
 import com.yazid.assessment3.databinding.FragmentProductBinding
+import com.yazid.assessment3.entity.DataX
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
-class MyProductRecyclerViewAdapter(
-    private val values: List<PlaceholderItem>
-) : RecyclerView.Adapter<MyProductRecyclerViewAdapter.ViewHolder>() {
+class MyProductRecyclerViewAdapter :
+    RecyclerView.Adapter<MyProductRecyclerViewAdapter.ViewHolder>() {
+
+    private val data = mutableListOf<DataX>()
+
+    fun updateData(newData: List<DataX>) {
+        data.clear()
+        data.addAll(newData)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -29,20 +33,18 @@ class MyProductRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.bind(data[position])
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = data.size
 
-    inner class ViewHolder(binding: FragmentProductBinding) :
+    inner class ViewHolder(private val binding: FragmentProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+        fun bind(data: DataX) = with(binding) {
+            itemNumber.text = data.name
+            content.text = data.price
+            Glide.with(imageView.context).load(data.images[0].path)
+                .error(R.drawable.ic_baseline_broken_image_24).into(imageView)
         }
     }
 

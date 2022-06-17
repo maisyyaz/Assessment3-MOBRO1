@@ -11,7 +11,7 @@ import com.yazid.assessment3.entity.User
     entities = [
         User::class,
     ],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class RoomDb : RoomDatabase() {
