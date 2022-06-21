@@ -29,7 +29,5 @@ object ProductApi {
         retrofit.create(ProductApiService::class.java)
     }
 
-    fun getProductImage(nama: String): String = nama
-
     enum class ApiStatus {LOADING, SUCCESS, FAILED}
 }
